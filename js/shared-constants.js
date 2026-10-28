@@ -21,7 +21,30 @@ const binGenerator = d3.bin()
     .thresholds(d3.range(200, 1800, 200)); // Bin edges every 200 kWh, as in the target chart
 
 // T06-1 Step 7.2 Make the filter options accessible globally
+const filters_screen = [
+    { id: "all", label: "All", isActive: true },
+    { id: "LED", label: "LED", isActive: false },
+    { id: "LCD", label: "LCD", isActive: false },
+    { id: "OLED", label: "OLED", isActive: false }
+];
+
+// Extension: screen-size filters (most frequent sizes, plus 98" as the biggest common size)
+const filters_size = [
+    { id: "all", label: "All Sizes", isActive: true },
+    { id: 24, label: '24"', isActive: false },
+    { id: 32, label: '32"', isActive: false },
+    { id: 55, label: '55"', isActive: false },
+    { id: 65, label: '65"', isActive: false },
+    { id: 98, label: '98"', isActive: false }
+];
 
 // T06-2 Step 1.4 Set up shared constant
+let innerChartS; // Inner chart for the scatterplot (kept separate from the histogram's)
+
+const xScaleS = d3.scaleLinear();
+const yScaleS = d3.scaleLinear();
+const colorScale = d3.scaleOrdinal();
 
 // T06-2 Step 3.3 Add tooltipWidth and tooltipHeight
+const tooltipWidth = 100; // Brief uses 65; widened so "114 inches" fits
+const tooltipHeight = 32;

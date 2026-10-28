@@ -86,7 +86,8 @@ p {
 }
 
 /* Filters/buttons */
-#filters_screen {
+#filters_screen,
+#filters_size {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
@@ -94,7 +95,8 @@ p {
 }
 
 /* Filter buttons — use classes so we can toggle active state */
-#filters_screen .filter {
+#filters_screen .filter,
+#filters_size .filter {
     border: none;
     background: var(--accent);
     /* dark orange by default */
@@ -107,13 +109,15 @@ p {
 }
 
 /* Active filter: pale background, dark text */
-#filters_screen .filter.active {
+#filters_screen .filter.active,
+#filters_size .filter.active {
     background: #f3d9b9;
     /* pale/light orange */
     color: var(--text);
 }
 
-#filters_screen .filter:focus {
+#filters_screen .filter:focus,
+#filters_size .filter:focus {
     outline: 2px solid rgba(0, 0, 0, 0.08);
 }
 
@@ -165,7 +169,8 @@ footer p {
         padding: 18px 14px;
     }
 
-    #filters_screen button {
+    #filters_screen button,
+    #filters_size button {
         padding: 8px 10px;
     }
 }

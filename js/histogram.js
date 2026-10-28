@@ -43,6 +43,8 @@ const drawHistogram = (data) => {
         .attr("stroke", bodyBackgroundColor) // Set the stroke color gives appearance of gap
         .attr("stroke-width", 2);
 
+    updateCount(bins); // Extension: show the starting number of TVs
+
     // Step 6.5 Add axes
     const bottomAxis = d3.axisBottom(xScale);
 

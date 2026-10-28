@@ -28,9 +28,20 @@
 
             <!-- JavaScript renders the energy histogram and TV scatterplot here. -->
             <div id="histogram" class="responsive-svg-container"></div>
+
+            <!-- JavaScript adds screen-size filter buttons here (extension). -->
+            <div id="filters_size"></div>
+
+            <!-- JavaScript shows how many TVs match the selected filters. -->
+            <p id="tv_count"></p>
+
             <!-- Explain the 0–1,800 kWh bin domain set in shared-constants.js. -->
-            <p>Only TVs with energy consumption less than 1,800 kWh per year have been included.</p>
-            <!-- T06-2 Step 1.2 call new scatterplot.js file in index.html -->
+            <p>The histogram only includes TVs with energy consumption less than 1,800 kWh per year.</p>
+
+            <!-- T06-2 Step 1.2 Div for the scatterplot -->
+            <p>TVs with same star rating can have very different energy consumption. It all depends on
+                screen size and technology type. Hover over a point to see its screen size.</p>
+            <div id="scatterplot" class="responsive-svg-container"></div>
 
             <!-- Credit the source of the television energy-rating data. -->
             <div class="body">
@@ -56,7 +67,7 @@
     <script src="js/interactions.js"></script>
     <script src="js/histogram.js"></script>
     <!-- T06-2 Step 1.2 call new scatterplot.js file in index.html -->
-
+    <script src="js/scatterplot.js"></script>
     <script src="js/load-data.js"></script>
 </body>
 
