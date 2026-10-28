@@ -30,16 +30,26 @@ const drawScatterplot = (data) => {
 
     // T06-2 Step 2.4
     /// (Corrected code) Set up colours for screen technologies
+    /// Colours come from techColors in shared-constants.js, so every chart and button matches
     const uniqueTechs = [...new Set(data.map(d => d.screenTech))];
 
     colorScale
         .domain(uniqueTechs)
-        .range(d3.schemeCategory10);
+        .range(uniqueTechs.map(tech => techColors[tech]));
+
+    // Light horizontal gridlines first, so the dots are drawn on top of them
+    const leftAxis = d3.axisLeft(yScaleS)
+        .tickSize(-innerWidth);
+
+    innerChartS.append("g")
+        .attr("class", "y-axis")
+        .call(leftAxis);
 
     // T06-2 Step 2.5 Draw the circles
     innerChartS.selectAll("circle")
         .data(data)
         .join("circle")
+        .attr("class", "dot")
         .attr("cx", d => xScaleS(d.star))
         .attr("cy", d => yScaleS(d.energyConsumption))
         .attr("r", 4)
@@ -47,10 +57,11 @@ const drawScatterplot = (data) => {
         .attr("opacity", 0.5);
 
     // T06-2 Step 2.6 Add bottom and left axis
-    /// Add axes
+    /// Add axes (left axis is drawn above, as gridlines behind the dots)
     const bottomAxis = d3.axisBottom(xScaleS);
 
     innerChartS.append("g")
+        .attr("class", "x-axis")
         .attr("transform", `translate(0, ${innerHeight})`)
         .call(bottomAxis);
 
@@ -60,11 +71,6 @@ const drawScatterplot = (data) => {
         .attr("x", width - 20)
         .attr("y", height - 5)
         .attr("class", "axis-label");
-
-    const leftAxis = d3.axisLeft(yScaleS);
-
-    innerChartS.append("g")
-        .call(leftAxis);
 
     svg.append("text")
         .text("Labeled Energy Consumption (kWh/year)")
@@ -79,11 +85,13 @@ const drawScatterplot = (data) => {
         .attr("transform", `translate(${width - 140}, ${margin.top})`);
 
     // Show each screen technology with its matching point colour.
+    // (A circle rather than the brief's square, so the key looks like the dots it explains)
     uniqueTechs.forEach((tech, i) => {
         const g = legend.append("g").attr("transform", `translate(0, ${i * 22})`);
-        g.append("rect")
-            .attr("width", 12)
-            .attr("height", 12)
+        g.append("circle")
+            .attr("cx", 6)
+            .attr("cy", 6)
+            .attr("r", 6)
             .attr("fill", colorScale(tech));
         g.append("text")
             .attr("x", 18)

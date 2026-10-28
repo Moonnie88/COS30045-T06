@@ -1,12 +1,16 @@
 /* Responsive container of the svg element */
 .responsive-svg-container {
     width: 100%;
-    max-width: 1000px;
 }
 
+/* On phones, keep charts wide enough to read and let them scroll sideways inside the card */
 @media screen and (max-width: 596px) {
     .responsive-svg-container {
-        margin-bottom: 20px;
+        overflow-x: auto;
+    }
+
+    .responsive-svg-container svg {
+        min-width: 560px;
     }
 }
 
@@ -15,6 +19,59 @@
     font-size: 14px;
     fill: #5a3e2b;
     /* Dark brown */
+}
+
+/* Axes: quiet tick labels, light gridlines, no extra y-axis line */
+.x-axis .tick text,
+.y-axis .tick text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    fill: #6b5e53;
+}
+
+.x-axis .domain,
+.x-axis .tick line {
+    stroke: #cdbfae;
+}
+
+.y-axis .domain {
+    display: none;
+}
+
+.y-axis .tick line {
+    stroke: #efe6db;
+}
+
+/* Histogram hover: fade the other bars, show the readout in the corner */
+.bar {
+    transition: opacity 0.15s;
+}
+
+.bar.dimmed {
+    opacity: 0.35;
+}
+
+.bar-label {
+    font-size: 14px;
+    fill: #5a3e2b;
+}
+
+.bar-label-count {
+    font-weight: 700;
+    fill: #3b2a1f;
+}
+
+/* Scatterplot tooltip text (background colour is tooltipColor in shared-constants.js) */
+.tooltip-size {
+    font-size: 15px;
+    font-weight: 700;
+    fill: #ffffff;
+}
+
+.tooltip-model,
+.tooltip-details {
+    font-size: 12px;
+    fill: #f3e7da;
 }
 
 /* Code based on Dufour and Meeks (2024) */

@@ -6,16 +6,22 @@
     --bg: #fbf2e8;
     /* light cream */
     --surface: #ffffff;
+    /* chart cards (matches bodyBackgroundColor in shared-constants.js) */
+    --ink: #3b2a1f;
+    /* darkest brown, for headings and active buttons */
     --text: #5a3e2b;
     /* dark brown */
     --muted: #6b5e53;
-    --radius: 8px;
+    --line: #eadfd2;
+    /* hairline borders */
+    --radius: 14px;
 }
 
 /* Page reset and basic typography */
-html,
-body {
-    height: 100%;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
 body {
@@ -25,7 +31,7 @@ body {
     color: var(--text);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    line-height: 1.5;
+    line-height: 1.55;
 }
 
 a {
@@ -37,140 +43,349 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Header */
-header {
-    background: var(--accent);
-    color: white;
-    padding: 22px 24px;
-    box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.06);
-}
-
-header h1 {
-    margin: 0;
-    font-size: 28px;
-    font-weight: 700;
-}
-
-/* Main content area */
-main {
-    padding: 28px 24px;
-}
-
-main>div {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
 h1,
 h2,
 h3 {
-    color: var(--text);
-    margin: 0 0 12px 0;
+    color: var(--ink);
 }
 
-h1 {
-    font-size: 28px;
+/* Centred content column used by every section */
+.wrap {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 24px;
 }
 
-h2 {
-    font-size: 22px;
+/* Small uppercase label above headings */
+.kicker {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent-dark);
 }
 
-h3 {
+/* Header */
+.site-header {
+    background: var(--ink);
+    border-bottom: 4px solid var(--accent);
+}
+
+.header-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4px 16px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.brand-mark {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    background: var(--accent);
+}
+
+.header-meta {
+    margin: 0;
+    font-size: 13px;
+    color: #e8d9c8;
+}
+
+/* Intro (hero) with summary numbers */
+.hero {
+    padding-top: 48px;
+    padding-bottom: 32px;
+}
+
+.hero h1 {
+    max-width: 780px;
+    margin: 0 0 14px;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.15;
+}
+
+.lead {
+    max-width: 680px;
+    margin: 0 0 28px;
     font-size: 18px;
 }
 
-p {
-    margin: 0 0 16px 0;
-    color: #3f2f28;
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    max-width: 780px;
+    margin: 0;
 }
 
-/* Filters/buttons */
+.stat {
+    padding: 16px 18px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+}
+
+.stat dt {
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.stat dd {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--ink);
+}
+
+.stat .unit {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+/* Filter bar — one row of filters above both charts, stuck to the top while scrolling */
+.filter-bar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(251, 242, 232, 0.94);
+    backdrop-filter: blur(6px);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.filter-inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 14px 32px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
 #filters_screen,
 #filters_size {
     display: flex;
-    gap: 12px;
     flex-wrap: wrap;
-    margin: 14px 0 18px 0;
+    gap: 6px;
 }
 
 /* Filter buttons — use classes so we can toggle active state */
 #filters_screen .filter,
 #filters_size .filter {
-    border: none;
-    background: var(--accent);
-    /* dark orange by default */
-    color: white;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    font: inherit;
+    font-size: 14px;
     font-weight: 600;
-    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid #dccbb8;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
 }
 
-/* Active filter: pale background, dark text */
+#filters_screen .filter:hover,
+#filters_size .filter:hover {
+    background: #f6eadc;
+}
+
+/* Active filter: dark brown fill, white text */
 #filters_screen .filter.active,
 #filters_size .filter.active {
-    background: #f3d9b9;
-    /* pale/light orange */
-    color: var(--text);
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #ffffff;
 }
 
-#filters_screen .filter:focus,
-#filters_size .filter:focus {
-    outline: 2px solid rgba(0, 0, 0, 0.08);
+#filters_screen .filter:focus-visible,
+#filters_size .filter:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
 }
 
-/* Chart container - keep a little spacing */
-.responsive-svg-container {
-    width: 100%;
-    max-width: 1000px;
-    margin-bottom: 28px;
+/* Colour dot on the technology buttons (same colours as the scatterplot) */
+.swatch {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #ffffff;
 }
 
-/* Data source note */
-.body {
-    margin-top: 10px;
-    color: #3f2f28;
+.filter-status {
+    margin: 0 0 6px auto;
+    font-size: 14px;
+    color: var(--muted);
 }
 
-.body a {
+.filter-status.empty {
+    font-weight: 700;
     color: var(--accent-dark);
-    font-weight: 600;
+}
+
+/* Figure cards — explanation on the left, chart on the right */
+.figures {
+    display: grid;
+    gap: 24px;
+    padding-top: 28px;
+    padding-bottom: 48px;
+}
+
+.figure-card {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+    padding: 28px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 1px 2px rgba(59, 42, 31, 0.04), 0 8px 24px rgba(59, 42, 31, 0.05);
+}
+
+.figure-text h2 {
+    margin: 0 0 12px;
+    font-size: 22px;
+    line-height: 1.25;
+}
+
+.figure-text p {
+    margin: 0 0 14px;
+    font-size: 15px;
+}
+
+.figure-text .try {
+    padding: 10px 12px;
+    font-size: 14px;
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+}
+
+.figure-text .note {
+    font-size: 13px;
+    color: var(--muted);
 }
 
 /* Footer */
-footer {
-    background: #5a3e2b;
-    /* dark brown */
-    color: #ffffff;
-    padding: 14px 24px;
-    margin-top: 24px;
+.site-footer {
+    padding: 32px 0 20px;
+    background: var(--ink);
+    color: #e8d9c8;
 }
 
-footer p {
+.footer-inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+}
+
+.site-footer h3 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+
+.site-footer p {
     margin: 0;
-    text-align: center;
     font-size: 14px;
 }
 
-/* Small utility */
-.lead {
-    font-size: 16px;
-    color: #4a362e;
+.site-footer a {
+    font-weight: 600;
+    color: #ffb48a;
 }
 
-@media screen and (max-width:596px) {
-    header h1 {
-        font-size: 20px;
+.site-footer .copyright {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 13px;
+    color: #cdbba8;
+}
+
+/* Tablet: stack the explanation above each chart */
+@media screen and (max-width: 860px) {
+    .figure-card {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px;
+    }
+}
+
+/* Phone */
+@media screen and (max-width: 596px) {
+    .wrap {
+        padding: 0 16px;
     }
 
-    main {
-        padding: 18px 14px;
+    .hero {
+        padding-top: 28px;
+    }
+
+    .stats {
+        gap: 8px;
+    }
+
+    .stat {
+        padding: 12px;
+    }
+
+    .stat dd {
+        font-size: 22px;
+    }
+
+    .stat .unit {
+        display: block;
+        font-size: 12px;
+    }
+
+    /* A sticky bar would cover too much of a small screen */
+    .filter-bar {
+        position: static;
+    }
+
+    .filter-status {
+        margin-left: 0;
     }
 
     #filters_screen button,
     #filters_size button {
-        padding: 8px 10px;
+        padding: 6px 11px;
     }
 }

@@ -7,8 +7,14 @@ const innerHeight = height - margin.top - margin.bottom;
 
 /* Make the colours accessible globally */
 /****************************************/
-const barColor = "#606464";
-const bodyBackgroundColor = "#fbf2e8"; // Matches --bg in base.css so bar gaps blend in
+const barColor = "#7d7066"; // Warm grey for "All" (matches the cream/brown page theme)
+const bodyBackgroundColor = "#ffffff"; // Matches the white chart cards so bar gaps blend in
+const fadedColor = "#ddd3c7"; // Scatter dots that don't match the filters
+const tooltipColor = "#3b2a1f"; // Dark brown tooltip background
+
+// One colour per screen technology, used by the scatterplot, legend, buttons and histogram.
+// Checked for colour-blind separation (blue / orange / aqua).
+const techColors = { LED: "#2a78d6", LCD: "#eb6834", OLED: "#1baf7a" };
 
 // Set up the scales
 const xScale = d3.scaleLinear();
@@ -46,5 +52,5 @@ const yScaleS = d3.scaleLinear();
 const colorScale = d3.scaleOrdinal();
 
 // T06-2 Step 3.3 Add tooltipWidth and tooltipHeight
-const tooltipWidth = 100; // Brief uses 65; widened so "114 inches" fits
-const tooltipHeight = 32;
+const tooltipWidth = 210; // Wider than the brief's 65 to fit size, brand/model and energy
+const tooltipHeight = 64;

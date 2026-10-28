@@ -5,46 +5,104 @@
     <meta charset="UTF-8">
     <!-- Make the page render correctly on mobile and desktop screens. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive D3 Chart</title>
-    <!-- Load the shared page layout and chart-specific styles. -->
+    <title>TV Energy Consumption</title>
+    <!-- Roboto font, then the shared page layout and chart-specific styles. -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/visualisations.css">
 </head>
 
 <body>
     <!-- Identify the subject of the visualisation. -->
-    <header>
-        <h1>TV Energy Consumption</h1>
+    <header class="site-header">
+        <div class="wrap header-inner">
+            <p class="brand"><span class="brand-mark" aria-hidden="true"></span>TV Energy Consumption</p>
+            <p class="header-meta">COS30045 Data Visualisation · Week 6</p>
+        </div>
     </header>
 
-    <!-- Present the chart title, filters, charts, and data attribution. -->
     <main>
-        <div>
+        <!-- Introduce the page, with summary numbers that update with the filters. -->
+        <section class="hero wrap">
+            <p class="kicker">Energy Rating data · Televisions in Australia</p>
             <h1>Energy Consumption for different TV screen types and sizes</h1>
-            <p>TV's vary considerably in energy consumption.</p>
+            <p class="lead">Most TVs on sale in Australia are LED, and they vary considerably in energy
+                consumption. Use the filters to compare screen technologies and sizes. Both charts
+                update together.</p>
 
-            <!-- JavaScript adds screen-technology filter buttons here. -->
-            <div id="filters_screen"></div>
+            <dl class="stats" aria-live="polite">
+                <div class="stat">
+                    <dt>TVs selected</dt>
+                    <dd id="stat_count">–</dd>
+                </div>
+                <div class="stat">
+                    <dt>Median energy use</dt>
+                    <dd><span id="stat_median">–</span> <span class="unit">kWh/year</span></dd>
+                </div>
+                <div class="stat">
+                    <dt>Average star rating</dt>
+                    <dd><span id="stat_stars">–</span> <span class="unit">stars</span></dd>
+                </div>
+            </dl>
+        </section>
 
-            <!-- JavaScript renders the energy histogram and TV scatterplot here. -->
-            <div id="histogram" class="responsive-svg-container"></div>
+        <!-- One filter bar for both charts; it stays at the top of the screen while scrolling. -->
+        <section class="filter-bar" aria-label="Filters">
+            <div class="wrap filter-inner">
+                <div class="filter-group">
+                    <span class="filter-label" id="label_screen">Screen technology</span>
+                    <!-- JavaScript adds screen-technology filter buttons here. -->
+                    <div id="filters_screen" role="group" aria-labelledby="label_screen"></div>
+                </div>
+                <div class="filter-group">
+                    <span class="filter-label" id="label_size">Screen size</span>
+                    <!-- JavaScript adds screen-size filter buttons here (extension). -->
+                    <div id="filters_size" role="group" aria-labelledby="label_size"></div>
+                </div>
+                <!-- JavaScript shows how many TVs match the selected filters. -->
+                <p id="tv_count" class="filter-status" aria-live="polite"></p>
+            </div>
+        </section>
 
-            <!-- JavaScript adds screen-size filter buttons here (extension). -->
-            <div id="filters_size"></div>
-
-            <!-- JavaScript shows how many TVs match the selected filters. -->
-            <p id="tv_count"></p>
-
-            <!-- Explain the 0–1,800 kWh bin domain set in shared-constants.js. -->
-            <p>The histogram only includes TVs with energy consumption less than 1,800 kWh per year.</p>
+        <div class="wrap figures">
+            <!-- Figure 1: explanation on the left, histogram on the right. -->
+            <section class="figure-card" aria-labelledby="fig1_title">
+                <div class="figure-text">
+                    <p class="kicker">Figure 1 · Histogram</p>
+                    <h2 id="fig1_title">Most TVs use 200–600 kWh a year</h2>
+                    <p>Each bar counts the TVs whose labelled energy use falls in a 200 kWh band.
+                        Three in five TVs (59%) sit between 200 and 600 kWh a year.</p>
+                    <p class="try"><strong>Try this:</strong> pick <em>OLED</em>. No OLED TV uses less
+                        than 200 kWh a year. Hover over a bar to read its exact count.</p>
+                    <p class="note">The y-axis rescales to fit your selection. The one TV above
+                        1,800 kWh a year is left off this histogram; it is the highest dot in Figure 2.</p>
+                </div>
+                <!-- JavaScript renders the energy histogram here. -->
+                <div id="histogram" class="responsive-svg-container"></div>
+            </section>
 
             <!-- T06-2 Step 1.2 Div for the scatterplot -->
-            <p>TVs with same star rating can have very different energy consumption. It all depends on
-                screen size and technology type. Hover over a point to see its screen size.</p>
-            <div id="scatterplot" class="responsive-svg-container"></div>
+            <section class="figure-card" aria-labelledby="fig2_title">
+                <div class="figure-text">
+                    <p class="kicker">Figure 2 · Scatterplot</p>
+                    <h2 id="fig2_title">More stars usually means less energy, but not always</h2>
+                    <p>TVs with same star rating can have very different energy consumption. It all
+                        depends on screen size and technology type. Each dot is one TV, coloured by
+                        screen technology.</p>
+                    <p class="try"><strong>Try this:</strong> hover over a dot to see its screen size,
+                        brand and model. The highest dot is a 114-inch TV.</p>
+                    <p class="note">Dots that don't match the filters fade to grey.</p>
+                </div>
+                <!-- JavaScript renders the TV scatterplot here. -->
+                <div id="scatterplot" class="responsive-svg-container"></div>
+            </section>
+        </div>
+    </main>
 
-            <!-- Credit the source of the television energy-rating data. -->
-            <div class="body">
+    <!-- Credit the data source and close the page with its course and year attribution. -->
+    <footer class="site-footer">
+        <div class="wrap footer-inner">
+            <div>
                 <h3>Data source</h3>
                 <p>
                     <a href="https://data.gov.au/">
@@ -53,12 +111,12 @@
                     Downloaded Jan 2025
                 </p>
             </div>
+            <div>
+                <h3>About these charts</h3>
+                <p>Built with D3.js v7. Code based on Dufour and Meeks (2024).</p>
+            </div>
         </div>
-    </main>
-
-    <!-- Close the page with its course and year attribution. -->
-    <footer>
-        <p>&copy; 2025 Data Visualisation Week 6</p>
+        <p class="copyright">&copy; 2025 Data Visualisation Week 6</p>
     </footer>
 
     <!-- Load D3 before the chart code, and load the CSV after its renderers. -->

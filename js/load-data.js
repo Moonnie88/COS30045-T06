@@ -23,6 +23,10 @@ d3.csv("data/Ex6_TVdata.csv", d => ({
     createTooltip();
     handleMouseEvents();
 
+    // Extension: histogram hover readout and the starting summary numbers
+    handleHistogramHover();
+    updateStats(data, data.length);
+
 }).catch(error => {
     console.error("Error loading the CSV file:", error);
 });
