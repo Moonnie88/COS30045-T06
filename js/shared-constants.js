@@ -15,6 +15,10 @@ const xScale = d3.scaleLinear();
 const yScale = d3.scaleLinear();
 
 // T06-1 Step 6.2 Create a bin generator using d3.bin
+const binGenerator = d3.bin()
+    .value(d => d.energyConsumption) // Accessor for energyConsumption
+    .domain([0, 1800]) // Only TVs under 1,800 kWh/year (drops one 2,652 kWh outlier)
+    .thresholds(d3.range(200, 1800, 200)); // Bin edges every 200 kWh, as in the target chart
 
 // T06-1 Step 7.2 Make the filter options accessible globally
 
