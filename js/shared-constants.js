@@ -8,7 +8,7 @@ const innerHeight = height - margin.top - margin.bottom;
 /* Make the colours accessible globally */
 /****************************************/
 const barColor = "#606464";
-const bodyBackgroundColor = "#fffaf0";
+const bodyBackgroundColor = "#fbf2e8"; // Matches --bg in base.css so bar gaps blend in
 
 // Set up the scales
 const xScale = d3.scaleLinear();
